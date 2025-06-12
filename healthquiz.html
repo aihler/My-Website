@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healthy Habits Quiz</title>
+    <style>
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 2px solid #333;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .back-link:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .question-container {
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            background-color: #66bb6a;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background-color: #4caf50;
+        }
+        
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        
+        .recommendation {
+            font-size: 18px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🌟 Healthy Habits Quiz 🌟</h1>
+    <div class="question-container" id="quiz">
+        <div class="question" id="question"></div>
+        <div id="answers"></div>
+    </div>
+    <div class="result" id="result"></div>
+    <div class="recommendation" id="recommendation"></div>
+
+    <script>
+        const questions = [{
+            text: "Did you drink at least 8 cups of water today?",
+            score: [10, 0],
+            recommendations: "Drink more water to help with energy, skin, and digestion."
+        }, {
+            text: "Did you eat at least 3 servings of fruits and veggies?",
+            score: [10, 0],
+            recommendations: "Add fruits/veggies to each meal — smoothies, salads, or snacks!"
+        }, {
+            text: "Did you get at least 30 minutes of physical activity?",
+            score: [10, 0],
+            recommendations: "Even a brisk walk helps! Try Pilates, dancing, or stretching."
+        }, {
+            text: "Did you sleep 7–8 hours last night?",
+            score: [10, 0],
+            recommendations: "Try winding down early with no screens and a relaxing routine."
+        }, {
+            text: "Did you eat breakfast today?",
+            score: [10, 0],
+            recommendations: "Fuel your body in the morning with protein, fiber, and healthy fats."
+        }];
+
+        let currentQuestion = 0;
+        let totalScore = 0;
+        let suggestions = [];
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question').textContent = q.text;
+            document.getElementById('answers').innerHTML = `
+        <button onclick="answer(0)">Yes</button>
+        <button onclick="answer(1)">No</button>
+      `;
+        }
+
+        function answer(choice) {
+            totalScore += questions[currentQuestion].score[choice];
+            if (choice === 1) suggestions.push(questions[currentQuestion].recommendations);
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                displayResults();
+            }
+        }
+
+        function displayResults() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').textContent = `Your Healthy Habits Score: ${totalScore}/50`;
+            let recText = "";
+            if (totalScore === 50) {
+                recText = "You're crushing it! Keep up the awesome habits! 💪";
+            } else if (totalScore >= 30) {
+                recText = "You're doing great, but here are some ways to boost your health even more:";
+            } else {
+                recText = "Let’s build a few healthy habits to feel better each day:";
+            }
+            document.getElementById('recommendation').innerHTML = `<p>${recText}</p><ul>${suggestions.map(s => `<li>${s}</li>`).join('')}</ul>`;
+    }
+
+    showQuestion();
+    </script>
+
+    <br><br>
+    <a href="scratch.html" class="back-link">← Back to Health is Wealth</a>
+
+</body>
+
+</html>
